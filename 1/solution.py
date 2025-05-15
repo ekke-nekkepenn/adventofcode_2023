@@ -1,70 +1,65 @@
 import sys
 
-
 FILENAME = "input.txt"
 
-def convert_file():
-    left = []
-    right = []
-    with open(FILENAME, "r") as f:
-        for i, e in enumerate(f.read().split()):
-            if i % 2 == 0:
-                left.append(int(e))
-            else:
-                right.append(int(e))
-    return left, right
- 
+
 def part1():
     result = 0
-    # first convert the input to something more useful
-    left, right = convert_file()
-               
-    left = sorted(left)
-    right = sorted(right)
-    for i, e in enumerate(left):
-        result += abs(left[i] - right[i])
+
+    with open(FILENAME, "r") as f:
+        data = f.read().split()
+
+    for row in data:
+        num = ""
+        for char in row:
+            if char.isdigit():
+                num += char
+                break
+
+        for char in row[::-1]:
+            if char.isdigit():
+                num += char
+                break
+
+        result += int(num)
 
     return result
 
 
 def part2():
     result = 0
-    left, right = convert_file()
-    # frequency of element in "left" in "right"
-    frequency = {k:0 for k in left}
-    for i in right:
-        try:
-            frequency[i] += 1
-        except KeyError:
-            continue
+    num_names = {
+        "one": 1,
+        "two": 2,
+        "three": 3,
+        "four": 4,
+        "five": 5,
+        "six": 6,
+        "seven": 7,
+        "eight": 8,
+        "nine": 9,
+    }
 
-    for i in left:
-        result += i * frequency[i]
-    
+    with open(FILENAME, "r") as f:
+        data = f.read().split()
+
     return result
 
 
-
-
 def main():
-    result = 0
-    
+
     if len(sys.argv) < 2:
-        print(f"python {sys.argv[0]} (1) or (2)")
         return
 
-    if sys.argv[1] == '1':
+    result = 0
+
+    if sys.argv[1] == "1":
         result = part1()
 
-    elif sys.argv[1] == '2':
-        result = part2()
+    if sys.argv[1] == "2":
+        result = part1()
 
-    else:
-        print(f"python {sys.argv[0]} (1) or (2)")
-        return
-
-    print(f"Solution for part {sys.argv[1]}: {result}")
-
+    print(f"Solution for Part {sys.argv[1]}: {result}")
 
 
 if __name__ == "__main__":
